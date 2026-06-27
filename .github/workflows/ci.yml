@@ -34,34 +34,54 @@ jobs:
               run: npm run test
               working-directory: frontend
 
-    #         - name: Code build
-    #           run: echo "Building"
+            - name: Docker SetUp [Login]
+              uses: docker/login-action@v4
+              with:
+                username: ${{vars.DOCKERHUB_USERNAME}}
+                password: ${{secrets.DOCKERHUB_TOKEN}}
 
-    #         - name: Code push
-    #           run: echo "Pushing"
+            - name: Docker Build and Push
+              uses: docker/build-push-action@v7
+              with:
+                context: ./frontend
+                push: true
+                tags: ${{vars.DOCKERHUB_USERNAME}}/devboard-frontend:latest
 
-    # backend:
-        # runs-on: ubuntu-latest
-        # steps:
-        #     - name: Checkout code
-        #       uses: actions/checkout@v7
 
-        #     - name: Setup Go
-        #       uses: actions/setup-go@v6
-        #       with:
-        #         go-version: '1.23'
-        #         go-version-file: 'go.mod'
-        #         cache: true
-        #         cache-dependency-path: 'go.sum'
+    backend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
 
-        #     - name: Code lint
-        #       run: echo "Linting in progress"
+            - name: Setup Go
+              uses: actions/setup-go@v6
+              with:
+                go-version: '1.23'
+                cache: true
+                go-version-file: 'go.mod'
+                cache-dependency-path: go.sum
 
-        #     - name: Code build
-        #       run: echo "Building"
+            - name: Run Go Formmater
+              run: go fmt
+              working-directory: backend
 
-        #     - name: Code push
-        #       run: echo "Pushing"
+            - name: Run Go vet
+              run: go vet
+              working-directory: backend
+
+            - name: Docker SetUp [Login]
+              uses: docker/login-action@v4
+              with:
+                username: ${{vars.DOCKERHUB_USERNAME}}
+                password: ${{secrets.DOCKERHUB_TOKEN}}
+
+            - name: Docker Build and Push
+              uses: docker/build-push-action@v7
+              with:
+                context: ./backend
+                push: true
+                tags: ${{vars.DOCKERHUB_USERNAME}}/devboard-backend:latest
 
 
     
