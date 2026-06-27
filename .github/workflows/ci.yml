@@ -32,6 +32,7 @@ jobs:
 
             - name: Frontend Test
               run: npm run test
+              working-directory: frontend
 
     #         - name: Code build
     #           run: echo "Building"
