@@ -1,0 +1,64 @@
+# Goal - I have to build, lint, test the code for frontend and backend , 
+# then push the changes to Dockerhub
+
+name: CI
+
+on:
+    push:
+        branches: [practice]
+
+jobs:
+    frontend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Setup Node
+              uses: actions/setup-node@v6
+              with:
+                node-version: '20'
+                check-latest: false
+                cache: npm
+                cache-dependency-path: frontend\package-lock.json
+
+            - name: Install npm packages
+              run: npm ci
+
+            - name: Frontend Linter
+              run: npm run lint
+
+            - name: Frontend Test
+              run: npm run test
+
+    #         - name: Code build
+    #           run: echo "Building"
+
+    #         - name: Code push
+    #           run: echo "Pushing"
+
+    # backend:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Setup Go
+              uses: actions/setup-go@v6
+              with:
+                go-version: '1.23'
+                go-version-file: 'go.mod'
+                cache: true
+                cache-dependency-path: 'go.sum'
+
+            - name: Code lint
+              run: echo "Linting in progress"
+
+            - name: Code build
+              run: echo "Building"
+
+            - name: Code push
+              run: echo "Pushing"
+
+
+    
