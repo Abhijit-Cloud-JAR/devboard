@@ -1,0 +1,13 @@
+name: DevSecOps-CI
+
+on:
+    push:
+        branches: [practice]
+
+jobs:
+    ci-pipeline:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Code Quality
+              uses: ./.github/workflows/code-quality.yml
+
