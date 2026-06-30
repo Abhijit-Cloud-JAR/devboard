@@ -5,9 +5,6 @@ on:
         branches: [practice]
 
 jobs:
-    ci-pipeline:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Code Quality
-              uses: ./.github/workflows/code-quality.yml
+    code-quality:
+        uses: ./.github/workflows/code-quality.yml
 
