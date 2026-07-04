@@ -27,6 +27,7 @@ jobs:
               continue-on-error: true
 
             - name: Upload NPM Audit Scan Report to GitHub
+              if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: npm-audit-results
@@ -47,3 +48,10 @@ jobs:
               continue-on-error: true
               run: govulncheck ./... > govulncheck-report.txt
               working-directory: backend
+
+            - name: Upload Report to Artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: dependency scan report
+                path: reports/dependency-report.txt
+                retention-days: 5
