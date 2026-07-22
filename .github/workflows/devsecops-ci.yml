@@ -32,4 +32,7 @@ jobs:
 
 #---------------------SAST Complete---------------------
 
-        
+    deploy:
+        uses: ./.github/workflows/deploy.yml
+        needs: [docker-push]
+        secrets: inherit
