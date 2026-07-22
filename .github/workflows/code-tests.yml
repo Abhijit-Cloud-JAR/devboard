@@ -1,0 +1,39 @@
+name: Code Tests
+on:
+  workflow_call:
+jobs:
+  code-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          # check-latest: false
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install npm packages
+        run: npm install --legacy-peer-deps
+        working-directory: frontend
+      
+      - name: Frontend Test
+        run: npm run test
+        working-directory: frontend
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+            go-version: '1.23'
+            cache: true
+            go-version-file: 'go.mod'
+            cache-dependency-path: go.sum
+
+      - name: Run Tests
+        run: go test 
+        working-directory: backend
+
+      

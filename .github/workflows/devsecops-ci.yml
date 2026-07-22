@@ -22,5 +22,11 @@ jobs:
         uses: ./.github/workflows/sonar-scan.yml
         secrets: inherit
 
+    code-tests:
+        uses: ./.github/workflows/code-tests.yml
+    
+    docker-push:
+        uses: ./.github/workflows/docker-push.yml
+        secrets: inherit
 
         

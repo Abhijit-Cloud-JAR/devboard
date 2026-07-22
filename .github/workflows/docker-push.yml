@@ -1,0 +1,26 @@
+name: Docker push
+on:
+    workflow_call:
+jobs:
+    docker-push:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix: 
+                folders: ['backend','frontend']
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v7 
+            
+            - name: Docker SetUp [Login]
+              uses: docker/login-action@v4
+              with:
+                username: ${{vars.DOCKERHUB_USERNAME}}
+                password: ${{secrets.DOCKERHUB_TOKEN}}
+
+            - name: Docker Build and Push
+              uses: docker/build-push-action@v7
+              with:
+                context: ./${{ matrix.folders }}
+                push: true
+                tags: ${{vars.DOCKERHUB_USERNAME}}/devboard-${{ matrix.folders }}:latest
