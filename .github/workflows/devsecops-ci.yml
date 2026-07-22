@@ -30,6 +30,6 @@ jobs:
         needs: [code-quality,code-tests,sonar-qube,docker-checks,dependency-checks,secret-scanning]
         secrets: inherit
 
----------------------SAST Complete---------------------
+#---------------------SAST Complete---------------------
 
         
